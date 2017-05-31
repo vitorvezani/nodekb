@@ -1,8 +1,25 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
+
+mongoose.connect('mongodb://localhost/nodekb');
+let db = mongoose.connection;
+
+// Check for db errors
+db.once('open', function() {
+  console.log('Connected to MongoDB');
+})
+
+// Check for db errors
+db.on('error', function(err) {
+  console.log(err);
+})
 
 // Init app
 const app = express();
+
+// Bring in Models
+let Article = require('./models/article');
 
 // load view engine
 app.set('views', path.join(__dirname, 'views'));
@@ -10,25 +27,15 @@ app.set('view engine', 'pug');
 
 // index route
 app.get('/', function(req, res) {
-  let articles = [{
-    id: 1,
-    title: 'Article One',
-    author: 'Vitor Vezani',
-    body: 'This is article one!'
-  }, {
-    id: 2,
-    title: 'Article Two',
-    author: 'Ronaldo da Silva',
-    body: 'This is article two!'
-  }, {
-    id: 3,
-    title: 'Article Three',
-    author: 'Bezerra da Silva',
-    body: 'This is article three!'
-  }];
-  res.render('index', {
-    title: 'Articles!',
-    articles: articles
+  Article.find({}, function(err, articles){
+    if(err) {
+      console.log(err);
+    } else {
+      res.render('index', {
+        title: 'Articles!',
+        articles: articles
+      });
+    }
   });
 });
 
