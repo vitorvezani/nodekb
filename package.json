@@ -1,0 +1,15 @@
+{
+  "name": "nodekb",
+  "version": "1.0.0",
+  "description": "A nodejs project",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vitor R. Vezani",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
